@@ -87,7 +87,7 @@ app.post("/deposit",verifytonken,async(rq,rs)=>{
     await db.promise().query(
         "UPDATE users SET balance=balance + ? WHERE _id=? ",[amount,id])
         const data=    await db.promise().query(
-            "SELECT _id ,balance from Users WHERE _id=? ",[id]
+            "SELECT _id ,balance from users WHERE _id=? ",[id]
         )
 
   await  db.promise().query (
@@ -115,7 +115,7 @@ app.post("/wihdraw",verifytonken,async(rq,rs)=>{
     await db.promise().query(
         "UPDATE users SET balance=balance - ? WHERE _id=? ",[amount,id])
         const data=    await db.promise().query(
-            "SELECT _id ,balance from Users WHERE _id=? ",[id]
+            "SELECT _id ,balance from users WHERE _id=? ",[id]
         )
 
   await  db.promise().query (
