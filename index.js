@@ -91,7 +91,7 @@ app.post("/deposit",verifytonken,async(rq,rs)=>{
         )
 
   await  db.promise().query (
-        `INSERT INTO transactionLog 
+        `INSERT INTO transactionlog
          (user_id, transaction_type, amount) 
          VALUES (?, ?, ?)`,
         [
@@ -119,7 +119,7 @@ app.post("/wihdraw",verifytonken,async(rq,rs)=>{
         )
 
   await  db.promise().query (
-        `INSERT INTO transactionLog 
+        `INSERT INTO transactionlog
          (user_id, transaction_type, amount) 
          VALUES (?, ?, ?)`,
         [
