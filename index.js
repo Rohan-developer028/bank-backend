@@ -50,7 +50,9 @@ app.post("/login", (rq,rs)=>{
     db.query(
         "SELECT _id,name,role,email,balance FROM Users WHERE email=?  AND password=?",[rq.body.email,rq.body.password],(err,result)=>{
             if(err)
+            {  console.log(err)
                 return rs.json({err:err})
+            }
             if(result.length==0)
                 return rs.json({err:"invalid credentials"})
             const user=result[0]
