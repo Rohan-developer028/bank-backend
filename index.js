@@ -48,7 +48,7 @@ app.post("/login", (rq,rs)=>{
         return rs.status(400).json({ message: "Email and password required" });
 
     db.query(
-        "SELECT _id,name,role,email,balance FROM Users WHERE email=?  AND password=?",[rq.body.email,rq.body.password],(err,result)=>{
+        "SELECT _id,name,role,email,balance FROM users WHERE email=?  AND password=?",[rq.body.email,rq.body.password],(err,result)=>{
             if(err)
             {  console.log(err)
                 return rs.json({err:err})
@@ -85,13 +85,13 @@ app.post("/deposit",verifytonken,async(rq,rs)=>{
     const {id,amount}=rq.body;
     try{
     await db.promise().query(
-        "UPDATE Users SET balance=balance + ? WHERE _id=? ",[amount,id])
+        "UPDATE users SET balance=balance + ? WHERE _id=? ",[amount,id])
         const data=    await db.promise().query(
             "SELECT _id ,balance from Users WHERE _id=? ",[id]
         )
 
   await  db.promise().query (
-        `INSERT INTO TransactionLog 
+        `INSERT INTO transactionLog 
          (user_id, transaction_type, amount) 
          VALUES (?, ?, ?)`,
         [
@@ -113,13 +113,13 @@ app.post("/wihdraw",verifytonken,async(rq,rs)=>{
     const {id,amount}=rq.body;
     try{
     await db.promise().query(
-        "UPDATE Users SET balance=balance - ? WHERE _id=? ",[amount,id])
+        "UPDATE users SET balance=balance - ? WHERE _id=? ",[amount,id])
         const data=    await db.promise().query(
             "SELECT _id ,balance from Users WHERE _id=? ",[id]
         )
 
   await  db.promise().query (
-        `INSERT INTO TransactionLog 
+        `INSERT INTO transactionLog 
          (user_id, transaction_type, amount) 
          VALUES (?, ?, ?)`,
         [
@@ -142,7 +142,7 @@ app.get("/getuser",verifytonken,async(rq,rs)=>{
 
     try{
         const data= await db.promise().query(
-            "SELECT balance ,email,name ,_id FROM Users WHERE role=?",['customer']
+            "SELECT balance ,email,name ,_id FROM users WHERE role=?",['customer']
         )
         
         rs.send(data[0])
@@ -158,7 +158,7 @@ app.post('/log',verifytonken,async(rq,rs)=>{
     const id=rq.body.id
 
     const data=await db.promise().query(
-        "SELECT * FROM Transactionlog WHERE user_id =? ",[id]
+        "SELECT * FROM transactionlog WHERE user_id =? ",[id]
     )
     rs.send([data[0]])
 })
@@ -166,7 +166,7 @@ app.post('/log',verifytonken,async(rq,rs)=>{
 app.post('/bal',verifytonken,async(rq,rs)=>{
       const id=rq.body.id
     const data=await db.promise().query(
-        "SELECT balance FROM Users WHERE _id=?",[id]
+        "SELECT balance FROM users WHERE _id=?",[id]
     )
  console.log(data)
     rs.json({bal:data[0][0]})
