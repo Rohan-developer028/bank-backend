@@ -40,14 +40,14 @@ function verifytonken(rq,rs,next){
 
 
 
-app.post("/login", (rq,rs)=>{
+app.post("/login", async(rq,rs)=>{
     try{
         console.log(rq.body)
       const{email,password}=rq.body
     if (!email || !password)
         return rs.status(400).json({ message: "Email and password required" });
 
-    db.query(
+    await db.promise().query(
         "SELECT _id,name,role,email,balance FROM users WHERE email=?  AND password=?",[rq.body.email,rq.body.password],(err,result)=>{
             if(err)
             {  console.log(err)
