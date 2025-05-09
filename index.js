@@ -55,6 +55,7 @@ app.post("/login", async(rq,rs)=>{
             }
             if(result.length==0)
                 return rs.json({err:"invalid credentials"})
+            consoe.log(result)
             const user=result[0]
             const authToken=jwt.sign(user._id,process.env.jwtkey)
 
