@@ -47,12 +47,8 @@ app.post("/login", async(rq,rs)=>{
     if (!email || !password)
         return rs.status(400).json({ message: "Email and password required" });
 
-     db.promise().query(
-        "SELECT _id,name,role,email,balance FROM users WHERE email=?  AND password=?",[rq.body.email,rq.body.password],(err,result)=>{
-            if(err)
-            {  console.log(err)
-                return rs.json({err:err})
-            }
+    const [result]=await db.promise().query("SELECT _id,name,role,email,balance FROM users WHERE email=?  AND password=?",[rq.body.email,rq.body.password])
+            
             if(result.length==0)
                 return rs.json({err:"invalid credentials"})
             consoe.log(result)
@@ -71,8 +67,8 @@ app.post("/login", async(rq,rs)=>{
 
         
 
-        }
-    )
+        
+    
 }
 
 catch(err)
