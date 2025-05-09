@@ -47,7 +47,7 @@ app.post("/login", async(rq,rs)=>{
     if (!email || !password)
         return rs.status(400).json({ message: "Email and password required" });
 
-    await db.promise().query(
+     db.promise().query(
         "SELECT _id,name,role,email,balance FROM users WHERE email=?  AND password=?",[rq.body.email,rq.body.password],(err,result)=>{
             if(err)
             {  console.log(err)
