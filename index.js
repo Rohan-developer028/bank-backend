@@ -170,8 +170,9 @@ app.post('/bal',verifytonken,async(rq,rs)=>{
     rs.json({bal:data[0][0]})
 })
 
-app.listen(process.env.port,(err,res)=>{
-    if(err)
-        return console.log(err)
-    console.log(`"server started"${process.env.port}`)
-})
+
+const PORT = process.env.port || 5000;
+app.listen(PORT, (err) => {
+    if(err) return console.log(err);
+    console.log(`Server started on port ${PORT}`);
+});
